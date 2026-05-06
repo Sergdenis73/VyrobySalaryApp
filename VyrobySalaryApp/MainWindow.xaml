@@ -5,8 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VyrobySalaryApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        x:Name="InfoSalaryForm"
+        Title="Облік виробів та формування зарплат"
+        Height="500"
+        Width="850"
+        WindowStartupLocation="CenterScreen">
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Головне меню програми -->
+        <Menu x:Name="MainMenu" Grid.Row="0">
+            <MenuItem x:Name="FileMenuItem" Header="Файл">
+                <MenuItem x:Name="LoadDataMenuItem" Header="Завантажити"/>
+                <MenuItem x:Name="SaveDataMenuItem" Header="Зберегти звіт"/>
+            </MenuItem>
+
+            <MenuItem x:Name="RecordsMenuItem" Header="Записи">
+                <MenuItem x:Name="AddDataMenuItem" Header="Додати"/>
+                <MenuItem x:Name="EditDataMenuItem" Header="Редагувати"/>
+            </MenuItem>
+
+            <MenuItem x:Name="SelectMenuItem" Header="Обробка">
+                <MenuItem x:Name="SelectWorkshopMenuItem" Header="Відібрати за цехом"/>
+                <MenuItem x:Name="AverageSalaryMenuItem" Header="Середня зарплата по цеху"/>
+            </MenuItem>
+
+            <MenuItem x:Name="AuthMenuItem" Header="Авторизація"/>
+        </Menu>
+
+        <!-- Таблиця для відображення даних із БД -->
+        <DataGrid x:Name="ProductsDataGrid"
+                  Grid.Row="1"
+                  Margin="10"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding id}" Width="Auto"/>
+                <DataGridTextColumn Header="Прізвище складальника" Binding="{Binding surname}" Width="*"/>
+                <DataGridTextColumn Header="Цех" Binding="{Binding workshop_number}" Width="Auto"/>
+                <DataGridTextColumn Header="Вироби A" Binding="{Binding product_a}" Width="Auto"/>
+                <DataGridTextColumn Header="Вироби Б" Binding="{Binding product_b}" Width="Auto"/>
+                <DataGridTextColumn Header="Вироби C" Binding="{Binding product_c}" Width="Auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Нижній текстовий рядок стану -->
+        <TextBlock x:Name="StatusTextBlock"
+                   Grid.Row="2"
+                   Margin="10"
+                   Text="Користувач: Керівник. Режим перегляду."
+                   FontSize="14"/>
     </Grid>
 </Window>
