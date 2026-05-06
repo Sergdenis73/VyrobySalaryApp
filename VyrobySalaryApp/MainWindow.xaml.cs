@@ -54,6 +54,33 @@ namespace VyrobySalaryApp
             });
 
             ProductsDataGrid.ItemsSource = workersList;
+
+            ApplyAccessRights();
+        }
+        private void ApplyAccessRights()
+        {
+            if (Authorization.CurrentRole == "Бухгалтер")
+            {
+                AddDataMenuItem.IsEnabled = true;
+                EditDataMenuItem.IsEnabled = true;
+                StatusTextBlock.Text = "Користувач: Бухгалтер. Повний доступ.";
+            }
+            else
+            {
+                AddDataMenuItem.IsEnabled = false;
+                EditDataMenuItem.IsEnabled = false;
+                StatusTextBlock.Text = "Користувач: Керівник. Режим перегляду.";
+            }
+        }
+        private void AuthMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            LogInForm loginForm = new LogInForm();
+            bool? result = loginForm.ShowDialog();
+
+            if (result == true)
+            {
+                ApplyAccessRights();
+            }
         }
     }
 }

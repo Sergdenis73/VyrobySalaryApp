@@ -35,7 +35,7 @@
                 <MenuItem x:Name="AverageSalaryMenuItem" Header="Середня зарплата по цеху"/>
             </MenuItem>
 
-            <MenuItem x:Name="AuthMenuItem" Header="Авторизація"/>
+            <MenuItem x:Name="AuthMenuItem" Header="Авторизація" Click="AuthMenuItem_Click"/>
         </Menu>
 
         <!-- Таблиця для відображення даних із БД -->
