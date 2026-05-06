@@ -21,7 +21,7 @@
         <!-- Головне меню програми -->
         <Menu x:Name="MainMenu" Grid.Row="0">
             <MenuItem x:Name="FileMenuItem" Header="Файл">
-                <MenuItem x:Name="LoadDataMenuItem" Header="Завантажити"/>
+                <MenuItem x:Name="LoadDataMenuItem" Header="Завантажити" Click="LoadDataMenuItem_Click"/>
                 <MenuItem x:Name="SaveDataMenuItem" Header="Зберегти звіт"/>
             </MenuItem>
 

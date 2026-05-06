@@ -51,5 +51,11 @@ namespace VyrobySalaryApp
                 ApplyAccessRights();
             }
         }
+        private void LoadDataMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            LoadDataFromDb();
+
+            MessageBox.Show("Дані успішно завантажено з бази даних MySQL.");
+        }
     }
 }
