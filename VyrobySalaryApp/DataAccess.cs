@@ -46,5 +46,42 @@ namespace VyrobySalaryApp
 
             return list;
         }
+
+        public bool UpdateWorkerProduct(WorkerProduct worker)
+        {
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                conn.Open();
+
+                string sql = @"UPDATE workers_products 
+                               SET surname = @surname,
+                                   workshop_number = @workshop_number,
+                                   product_a = @product_a,
+                                   product_b = @product_b,
+                                   product_c = @product_c
+                               WHERE id = @id;";
+
+                MySqlCommand command = new MySqlCommand(sql, conn);
+
+                command.Parameters.AddWithValue("@surname", worker.surname);
+                command.Parameters.AddWithValue("@workshop_number", worker.workshop_number);
+                command.Parameters.AddWithValue("@product_a", worker.product_a);
+                command.Parameters.AddWithValue("@product_b", worker.product_b);
+                command.Parameters.AddWithValue("@product_c", worker.product_c);
+                command.Parameters.AddWithValue("@id", worker.id);
+
+                command.ExecuteNonQuery();
+
+                conn.Close();
+
+                return true;
+            }
+            catch
+            {
+                MessageBox.Show("Не вдалося зберегти зміни у базі даних MySQL.");
+                return false;
+            }
+        }
     }
 }
