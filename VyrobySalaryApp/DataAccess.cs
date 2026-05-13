@@ -6,8 +6,7 @@ namespace VyrobySalaryApp
 {
     public class DataAccess
     {
-        private string connStr = "Server=localhost;Database=vyroby_salary_db;Uid=root;Pwd=Sergdenis@73;";
-
+        private string connStr = "Server=localhost;Database=vyroby_salary_db;Uid=labuser;Pwd=lab123;";
         public ObservableCollection<WorkerProduct> LoadWorkersProducts()
         {
             ObservableCollection<WorkerProduct> list = new ObservableCollection<WorkerProduct>();
