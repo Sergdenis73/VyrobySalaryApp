@@ -82,5 +82,61 @@ namespace VyrobySalaryApp
                 return false;
             }
         }
+
+        public bool AddWorkerProduct(WorkerProduct worker)
+        {
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                conn.Open();
+
+                string sql = @"INSERT INTO workers_products
+        (surname, workshop_number, product_a, product_b, product_c)
+        VALUES (@surname, @workshop_number, @product_a, @product_b, @product_c);";
+
+                MySqlCommand command = new MySqlCommand(sql, conn);
+
+                command.Parameters.AddWithValue("@surname", worker.surname);
+                command.Parameters.AddWithValue("@workshop_number", worker.workshop_number);
+                command.Parameters.AddWithValue("@product_a", worker.product_a);
+                command.Parameters.AddWithValue("@product_b", worker.product_b);
+                command.Parameters.AddWithValue("@product_c", worker.product_c);
+
+                command.ExecuteNonQuery();
+                conn.Close();
+
+                return true;
+            }
+            catch
+            {
+                MessageBox.Show("Помилка додавання запису.");
+                return false;
+            }
+        }
+
+        public bool DeleteWorkerProduct(int id)
+        {
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                conn.Open();
+
+                string sql = "DELETE FROM workers_products WHERE id = @id";
+
+                MySqlCommand command = new MySqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@id", id);
+
+                command.ExecuteNonQuery();
+
+                conn.Close();
+
+                return true;
+            }
+            catch
+            {
+                MessageBox.Show("Помилка видалення запису.");
+                return false;
+            }
+        }
     }
 }

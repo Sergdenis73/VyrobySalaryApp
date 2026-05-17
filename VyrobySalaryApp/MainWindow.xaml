@@ -27,8 +27,9 @@
             </MenuItem>
 
             <MenuItem x:Name="RecordsMenuItem" Header="Записи">
-                <MenuItem x:Name="AddDataMenuItem" Header="Додати"/>
+                <MenuItem x:Name="AddDataMenuItem" Header="Додати" Click="AddDataMenuItem_Click"/>
                 <MenuItem x:Name="EditDataMenuItem" Header="Редагувати" Click="EditDataMenuItem_Click"/>
+                <MenuItem x:Name="DeleteDataMenuItem" Header="Видалити" Click="DeleteDataMenuItem_Click"/>
             </MenuItem>
 
             <MenuItem x:Name="SelectMenuItem" Header="Обробка">
@@ -110,5 +111,9 @@
                    Margin="10"
                    Text="Користувач: Керівник. Режим перегляду."
                    FontSize="14"/>
+    
+    
+    
+    
     </Grid>
 </Window>

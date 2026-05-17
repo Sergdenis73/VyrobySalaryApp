@@ -8,6 +8,7 @@ namespace VyrobySalaryApp
         public ObservableCollection<WorkerProduct> workersList;
 
         private WorkerProduct selectedWorker;
+        private bool isAddMode = false;
 
         public MainWindow()
         {
@@ -161,5 +162,6 @@ namespace VyrobySalaryApp
                 EditGroupBox.Visibility = Visibility.Collapsed;
             }
         }
+
     }
 }
