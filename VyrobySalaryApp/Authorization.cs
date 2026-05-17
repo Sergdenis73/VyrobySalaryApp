@@ -8,8 +8,6 @@ namespace VyrobySalaryApp
     {
         public static string CurrentRole = "Керівник";
 
-        // керівник
-
         public static bool LogCheck(string login, string password)
         {
             if (login == "buhgalter" && password == "111")
@@ -24,7 +22,6 @@ namespace VyrobySalaryApp
                 return true;
             }
             
-
             CurrentRole = "Керівник";
             return false;
         }
