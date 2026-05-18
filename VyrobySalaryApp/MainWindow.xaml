@@ -27,8 +27,9 @@
             </MenuItem>
 
             <MenuItem x:Name="RecordsMenuItem" Header="Записи">
-                <MenuItem x:Name="AddDataMenuItem" Header="Додати"/>
+                <MenuItem x:Name="AddDataMenuItem" Header="Додати" Click="AddDataMenuItem_Click"/>
                 <MenuItem x:Name="EditDataMenuItem" Header="Редагувати" Click="EditDataMenuItem_Click"/>
+                <MenuItem x:Name="DeleteDataMenuItem" Header="Видалити" Click="DeleteDataMenuItem_Click"/>
             </MenuItem>
 
             <MenuItem x:Name="SelectMenuItem" Header="Обробка">
@@ -58,10 +59,10 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <!-- Блок редагування запису -->
+        <!-- Блок введення/редагування запису -->
         <GroupBox x:Name="EditGroupBox"
                   Grid.Row="2"
-                  Header="Редагування запису"
+                  Header="Введення / Редагування запису"
                   Margin="10"
                   Visibility="Collapsed">
 
@@ -101,6 +102,14 @@
                         Width="90"
                         Margin="10,5,5,5"
                         Click="SaveEditButton_Click"/>
+
+                <Button x:Name="SaveNewButton"
+                        Grid.Column="10"
+                        Content="Додати"
+                        Width="90"
+                        Margin="10,5,5,5"
+                        Visibility="Collapsed"
+                        Click="SaveNewButton_Click"/>
             </Grid>
         </GroupBox>
 
