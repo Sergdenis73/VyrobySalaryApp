@@ -7,6 +7,7 @@ namespace VyrobySalaryApp
     public class DataAccess
     {
         private string connStr = "Server=localhost;Database=vyroby_salary_db;Uid=labuser;Pwd=lab123;";
+
         public ObservableCollection<WorkerProduct> LoadWorkersProducts()
         {
             ObservableCollection<WorkerProduct> list = new ObservableCollection<WorkerProduct>();
@@ -71,7 +72,6 @@ namespace VyrobySalaryApp
                 command.Parameters.AddWithValue("@id", worker.id);
 
                 command.ExecuteNonQuery();
-
                 conn.Close();
 
                 return true;
@@ -79,6 +79,60 @@ namespace VyrobySalaryApp
             catch
             {
                 MessageBox.Show("Не вдалося зберегти зміни у базі даних MySQL.");
+                return false;
+            }
+        }
+
+        public bool InsertWorkerProduct(WorkerProduct worker)
+        {
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                conn.Open();
+
+                string sql = @"INSERT INTO workers_products (surname, workshop_number, product_a, product_b, product_c) 
+                               VALUES (@surname, @workshop_number, @product_a, @product_b, @product_c);";
+
+                MySqlCommand command = new MySqlCommand(sql, conn);
+
+                command.Parameters.AddWithValue("@surname", worker.surname);
+                command.Parameters.AddWithValue("@workshop_number", worker.workshop_number);
+                command.Parameters.AddWithValue("@product_a", worker.product_a);
+                command.Parameters.AddWithValue("@product_b", worker.product_b);
+                command.Parameters.AddWithValue("@product_c", worker.product_c);
+
+                command.ExecuteNonQuery();
+                conn.Close();
+
+                return true;
+            }
+            catch
+            {
+                MessageBox.Show("Не вдалося додати новий запис у базу даних MySQL.");
+                return false;
+            }
+        }
+
+        public bool DeleteWorkerProduct(int id)
+        {
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                conn.Open();
+
+                string sql = "DELETE FROM workers_products WHERE id = @id;";
+
+                MySqlCommand command = new MySqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@id", id);
+
+                command.ExecuteNonQuery();
+                conn.Close();
+
+                return true;
+            }
+            catch
+            {
+                MessageBox.Show("Не вдалося видалити запис із бази даних MySQL.");
                 return false;
             }
         }
