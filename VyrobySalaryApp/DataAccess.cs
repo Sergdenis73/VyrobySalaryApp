@@ -135,6 +135,94 @@ namespace VyrobySalaryApp
                 MessageBox.Show("Не вдалося видалити запис із бази даних MySQL.");
                 return false;
             }
+    
+        }
+        public ObservableCollection<WorkerProduct> SelectByWorkshop(int workshopNumber)
+        {
+            ObservableCollection<WorkerProduct> list = new ObservableCollection<WorkerProduct>();
+
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                conn.Open();
+
+                string sql = @"SELECT id, surname, workshop_number, product_a, product_b, product_c
+                       FROM workers_products
+                       WHERE workshop_number = @workshop_number;";
+
+                MySqlCommand command = new MySqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@workshop_number", workshopNumber);
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    WorkerProduct worker = new WorkerProduct();
+
+                    worker.id = reader.GetInt32("id");
+                    worker.surname = reader.GetString("surname");
+                    worker.workshop_number = reader.GetInt32("workshop_number");
+                    worker.product_a = reader.GetInt32("product_a");
+                    worker.product_b = reader.GetInt32("product_b");
+                    worker.product_c = reader.GetInt32("product_c");
+
+                    list.Add(worker);
+                }
+
+                reader.Close();
+                conn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Не вдалося виконати відбір даних за номером цеху.");
+            }
+
+            return list;
+        }
+
+        public ObservableCollection<WorkerProduct> SelectByWorkshopAndSurname(int workshopNumber, string surname)
+        {
+            ObservableCollection<WorkerProduct> list = new ObservableCollection<WorkerProduct>();
+
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                conn.Open();
+
+                string sql = @"SELECT id, surname, workshop_number, product_a, product_b, product_c
+                       FROM workers_products
+                       WHERE workshop_number = @workshop_number
+                       AND surname = @surname;";
+
+                MySqlCommand command = new MySqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@workshop_number", workshopNumber);
+                command.Parameters.AddWithValue("@surname", surname);
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    WorkerProduct worker = new WorkerProduct();
+
+                    worker.id = reader.GetInt32("id");
+                    worker.surname = reader.GetString("surname");
+                    worker.workshop_number = reader.GetInt32("workshop_number");
+                    worker.product_a = reader.GetInt32("product_a");
+                    worker.product_b = reader.GetInt32("product_b");
+                    worker.product_c = reader.GetInt32("product_c");
+
+                    list.Add(worker);
+                }
+
+                reader.Close();
+                conn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Не вдалося виконати відбір даних за номером цеху і прізвищем.");
+            }
+
+            return list;
         }
     }
 }

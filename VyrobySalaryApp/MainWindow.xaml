@@ -17,6 +17,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Головне меню програми -->
@@ -33,8 +34,16 @@
             </MenuItem>
 
             <MenuItem x:Name="SelectMenuItem" Header="Обробка">
-                <MenuItem x:Name="SelectWorkshopMenuItem" Header="Відібрати за цехом"/>
-                <MenuItem x:Name="AverageSalaryMenuItem" Header="Середня зарплата по цеху"/>
+                <MenuItem x:Name="SelectWorkshopMenuItem"
+              Header="Відібрати за цехом"
+              Click="SelectWorkshopMenuItem_Click"/>
+
+                <MenuItem x:Name="SelectWorkshopSurnameMenuItem"
+              Header="Відібрати за цехом і прізвищем"
+              Click="SelectWorkshopSurnameMenuItem_Click"/>
+
+                <MenuItem x:Name="AverageSalaryMenuItem"
+              Header="Середня зарплата по цеху"/>
             </MenuItem>
 
             <MenuItem x:Name="AuthMenuItem" Header="Авторизація" Click="AuthMenuItem_Click"/>
@@ -58,10 +67,61 @@
                 <DataGridTextColumn Header="Вироби C" Binding="{Binding product_c}" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
+        
+        <!-- Блок пошуку даних -->
+        <GroupBox x:Name="SearchGroupBox"
+          Grid.Row="2"
+          Header="Пошук даних"
+          Margin="10"
+          Visibility="Collapsed">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Content="Номер цеху:"
+               Grid.Column="0"
+               VerticalAlignment="Center"/>
+
+                <TextBox x:Name="SearchWorkshopTextBox"
+                 Grid.Column="1"
+                 Margin="5"/>
+
+                <Label x:Name="SearchSurnameLabel"
+               Content="Прізвище:"
+               Grid.Column="2"
+               VerticalAlignment="Center"
+               Visibility="Collapsed"/>
+
+                <TextBox x:Name="SearchSurnameTextBox"
+                 Grid.Column="3"
+                 Margin="5"
+                 Visibility="Collapsed"/>
+
+                <Button x:Name="SearchButton"
+                Grid.Column="4"
+                Content="Вибрати"
+                Width="90"
+                Margin="10,5,5,5"
+                Click="SearchButton_Click"/>
+
+                <Button x:Name="ClearSearchButton"
+                Grid.Column="5"
+                Content="Показати всі"
+                Width="100"
+                Margin="5"
+                Click="ClearSearchButton_Click"/>
+            </Grid>
+        </GroupBox>
 
         <!-- Блок введення/редагування запису -->
         <GroupBox x:Name="EditGroupBox"
-                  Grid.Row="2"
+                  Grid.Row="3"
                   Header="Введення / Редагування запису"
                   Margin="10"
                   Visibility="Collapsed">
@@ -115,7 +175,7 @@
 
         <!-- Нижній текстовий рядок стану -->
         <TextBlock x:Name="StatusTextBlock"
-                   Grid.Row="3"
+                   Grid.Row="4"
                    Margin="10"
                    Text="Користувач: Керівник. Режим перегляду."
                    FontSize="14"/>

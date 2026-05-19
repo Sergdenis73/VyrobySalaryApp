@@ -9,6 +9,8 @@ namespace VyrobySalaryApp
 
         private WorkerProduct selectedWorker;
 
+        private string searchMode = "";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -274,6 +276,120 @@ namespace VyrobySalaryApp
                 LoadDataFromDb();
                 EditGroupBox.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void SelectWorkshopMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            searchMode = "X";
+
+            SearchGroupBox.Visibility = Visibility.Visible;
+
+            SearchSurnameLabel.Visibility = Visibility.Collapsed;
+            SearchSurnameTextBox.Visibility = Visibility.Collapsed;
+
+            SearchWorkshopTextBox.Text = "";
+            SearchSurnameTextBox.Text = "";
+
+            MessageBox.Show("Введіть номер цеху для відбору записів.");
+        }
+
+        private void SelectWorkshopSurnameMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            searchMode = "XY";
+
+            SearchGroupBox.Visibility = Visibility.Visible;
+
+            SearchSurnameLabel.Visibility = Visibility.Visible;
+            SearchSurnameTextBox.Visibility = Visibility.Visible;
+
+            SearchWorkshopTextBox.Text = "";
+            SearchSurnameTextBox.Text = "";
+
+            MessageBox.Show("Введіть номер цеху та прізвище складальника для відбору записів.");
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            int workshopNumber;
+
+            if (SearchWorkshopTextBox.Text == "")
+            {
+                MessageBox.Show("Введіть номер цеху.");
+                return;
+            }
+
+            if (!int.TryParse(SearchWorkshopTextBox.Text, out workshopNumber))
+            {
+                MessageBox.Show("Номер цеху має бути цілим числом.");
+                return;
+            }
+
+            if (workshopNumber <= 0)
+            {
+                MessageBox.Show("Номер цеху має бути додатним числом.");
+                return;
+            }
+
+            DataAccess dataAccess = new DataAccess();
+
+            if (searchMode == "X")
+            {
+                workersList = dataAccess.SelectByWorkshop(workshopNumber);
+            }
+            else if (searchMode == "XY")
+            {
+                string surname = SearchSurnameTextBox.Text;
+
+                if (surname == "")
+                {
+                    MessageBox.Show("Введіть прізвище складальника.");
+                    return;
+                }
+
+                bool hasDigit = false;
+
+                for (int i = 0; i < surname.Length; i++)
+                {
+                    if (char.IsDigit(surname[i]))
+                    {
+                        hasDigit = true;
+                    }
+                }
+
+                if (hasDigit == true)
+                {
+                    MessageBox.Show("Прізвище повинно містити літери.");
+                    return;
+                }
+
+                workersList = dataAccess.SelectByWorkshopAndSurname(workshopNumber, surname);
+            }
+            else
+            {
+                MessageBox.Show("Оберіть режим пошуку.");
+                return;
+            }
+
+            ProductsDataGrid.ItemsSource = workersList;
+
+            if (workersList.Count == 0)
+            {
+                MessageBox.Show("Записи за заданими критеріями не знайдено.");
+            }
+            else
+            {
+                MessageBox.Show("Відбір даних виконано успішно.");
+            }
+        }
+
+        private void ClearSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoadDataFromDb();
+
+            SearchWorkshopTextBox.Text = "";
+            SearchSurnameTextBox.Text = "";
+
+            MessageBox.Show("Повний список записів знову відображено.");
         }
     }
 }
