@@ -24,7 +24,7 @@
         <Menu x:Name="MainMenu" Grid.Row="0">
             <MenuItem x:Name="FileMenuItem" Header="Файл">
                 <MenuItem x:Name="LoadDataMenuItem" Header="Завантажити" Click="LoadDataMenuItem_Click"/>
-                <MenuItem x:Name="SaveDataMenuItem" Header="Зберегти звіт"/>
+                <MenuItem x:Name="SaveDataMenuItem" Header="Зберегти звіт" Click="SaveDataMenuItem_Click"/>
             </MenuItem>
 
             <MenuItem x:Name="RecordsMenuItem" Header="Записи">
@@ -43,7 +43,8 @@
               Click="SelectWorkshopSurnameMenuItem_Click"/>
 
                 <MenuItem x:Name="AverageSalaryMenuItem"
-              Header="Середня зарплата по цеху"/>
+              Header="Середня зарплата по цеху"
+              Click="AverageSalaryMenuItem_Click"/>
             </MenuItem>
 
             <MenuItem x:Name="AuthMenuItem" Header="Авторизація" Click="AuthMenuItem_Click"/>
@@ -65,6 +66,7 @@
                 <DataGridTextColumn Header="Вироби A" Binding="{Binding product_a}" Width="Auto"/>
                 <DataGridTextColumn Header="Вироби Б" Binding="{Binding product_b}" Width="Auto"/>
                 <DataGridTextColumn Header="Вироби C" Binding="{Binding product_c}" Width="Auto"/>
+                <DataGridTextColumn Header="Зарплата (грн)" Binding="{Binding Salary}" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
         

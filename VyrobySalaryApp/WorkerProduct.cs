@@ -17,5 +17,13 @@ namespace VyrobySalaryApp
         public int product_b { get; set; }
 
         public int product_c { get; set; }
+
+        public double Salary
+        {
+            get
+            {
+                return (product_a * 500) + (product_b * 750) + (product_c * 1000);
+            }
+        }
     }
 }
