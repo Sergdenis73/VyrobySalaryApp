@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using Microsoft.Win32;
+using System.IO;
 
 namespace VyrobySalaryApp
 {
@@ -390,6 +392,90 @@ namespace VyrobySalaryApp
             SearchSurnameTextBox.Text = "";
 
             MessageBox.Show("Повний список записів знову відображено.");
+        }
+
+        private void AverageSalaryMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (workersList == null || workersList.Count == 0)
+            {
+                MessageBox.Show("Немає даних для розрахунку середньої зарплати. Спочатку виконайте відбір за цехом.");
+                return;
+            }
+
+            double totalSalary = 0;
+
+            foreach (var worker in workersList)
+            {
+                totalSalary += worker.Salary;
+            }
+
+            double averageSalary = totalSalary / workersList.Count;
+
+            int currentWorkshop = workersList[0].workshop_number;
+
+            MessageBox.Show($"Середня заробітна плата по цеху №{currentWorkshop} становить: {averageSalary:F2} грн.",
+                            "Аналітика цеху",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
+        }
+
+        private void SaveDataMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (workersList == null || workersList.Count == 0)
+            {
+                MessageBox.Show("Немає відібраних даних для збереження звітів. Спочатку виконайте пошук або завантажте дані.");
+                return;
+            }
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Текстові файли (*.txt)|*.txt|Усі файли (*.*)|*.*";
+            saveFileDialog.Title = "Збереження відібраної інформації про вироби та зарплати";
+            saveFileDialog.FileName = "Звіт_по_цеху";
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName, false, System.Text.Encoding.UTF8))
+                    {
+                        writer.WriteLine("-------------------------------------------------------------------------");
+                        writer.WriteLine("             ЗВІТ: ВІДОМІСТЬ ЗАРОБІТНОЇ ПЛАТИ СКЛАДАЛЬНИКІВ     ");
+                        writer.WriteLine("-------------------------------------------------------------------------");
+                        writer.WriteLine($"Дата формування: {System.DateTime.Now:dd.MM.yyyy HH:mm:ss}");
+                        writer.WriteLine($"Кількість записів у відомості: {workersList.Count}");
+                        writer.WriteLine("-------------------------------------------------------------------------");
+
+                        // Шапка таблиці всередині файлу
+                        writer.WriteLine(string.Format("| {0,-4} | {1,-20} | {2,-4} | {3,-5} | {4,-5} | {5,-5} | {6,-12} |",
+                            "ID", "Прізвище", "Цех", "Вир.A", "Вир.Б", "Вир.C", "Зарплата"));
+                        writer.WriteLine("-------------------------------------------------------------------------");
+
+                        double totalSalarySum = 0;
+
+                        foreach (var worker in workersList)
+                        {
+                            writer.WriteLine(string.Format("| {0,-4} | {1,-20} | {2,-4} | {3,-5} | {4,-5} | {5,-5} | {6,-12:F2} |",
+                                worker.id, worker.surname, worker.workshop_number,
+                                worker.product_a, worker.product_b, worker.product_c, worker.Salary));
+
+                            totalSalarySum += worker.Salary;
+                        }
+
+                        double averageSalary = totalSalarySum / workersList.Count;
+
+                        writer.WriteLine("-------------------------------------------------------------------------");
+                        writer.WriteLine($"Загальна сума нарахованих зарплат: {totalSalarySum:F2} грн.");
+                        writer.WriteLine($"Середня заробітна плата по відібраних даних: {averageSalary:F2} грн.");
+                        writer.WriteLine("-------------------------------------------------------------------------");
+                    }
+
+                    MessageBox.Show("Відібрану інформацію успішно записано у файл!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show($"Помилка при записі файлу: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }
