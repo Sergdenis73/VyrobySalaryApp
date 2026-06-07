@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="../SetupVyrobySalaryApp/SetupVyrobySalaryApp.vdproj" Type="Installer" />
   <Project Path="../VyrobySalaryAppTests/VyrobySalaryAppTests.csproj" Id="b3bf57bf-504d-4048-bc89-19bc5a7a9c75" />
   <Project Path="VyrobySalaryApp.csproj" />
 </Solution>
